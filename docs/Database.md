@@ -23,7 +23,10 @@ erDiagram
           page }|..|{ items : changes
           page }|..|{ events : changes
           page_catalogue }|..|{ page : contains
-          navigation_catalogue }|..|{ catalogue : uses
+          page_catalogue }|..|{ items : references
+          page_catalogue }|..|{ events : references
+          navigation_catalogue }|..|{ page_catalogue : uses
+          navigation_catalogue }|..|{ navigation_option : references
           user }|..|{ history : has
           history }|..|{ page_catalogue : references
 ```
