@@ -11,6 +11,6 @@ class PageController (
 ) {
 
     @GetMapping("/read")
-    fun getPage(page: String) = pageService.getPage(page)
+    fun getPage(page: String?) = pageService.getPage(page)
 
 }
