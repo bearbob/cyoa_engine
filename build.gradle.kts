@@ -1,10 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
+
 plugins {
+	val kotlinVersion = "1.7.10"
 	id("org.springframework.boot") version "2.6.12"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.7.10"
-	kotlin("plugin.spring") version "1.7.10"
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
+	id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
+	id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+	id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 group = "net.tripletwenty"
@@ -39,4 +45,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+allOpen {
+	annotations("javax.persistence.Entity", "javax.persistence.MappedSuperclass", "javax.persistence.Embedabble")
 }
