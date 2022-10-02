@@ -13,12 +13,15 @@ class NumberConverter {
          * Concatenate the numbers and add a number
          * in front that indicates how many literals the user number
          * has.
-         * Format: <length><user><page>
+         * Format: <lengthPage><page><lengthUser><user><state>
          */
         fun encode(key: KeyDto): String {
             val user = key.user.toString()
             val page = key.page.toString()
-            val startString: String = user.length.toString() + user + page
+            val state = key.state.toString()
+            val startString: String = """
+                ${page.length}$page${user.length}$user$state
+            """.trimIndent()
             var tempVal = startString.toLong()
             var result = ""
 
@@ -33,21 +36,35 @@ class NumberConverter {
             return result.reversed()
         }
 
-        fun decode(value: String): KeyDto {
-            var baseTen: Long = 0
-            value.reversed().toCharArray().forEachIndexed { index, c ->
-                baseTen += ALPHABET.indexOf(c) * BASE.toDouble().pow(index).toLong()
+        fun decode(value: String?): KeyDto? {
+            if (value.isNullOrEmpty()) return null
+            try {
+                var baseTen: Long = 0
+                value.reversed().toCharArray().forEachIndexed { index, c ->
+                    baseTen += ALPHABET.indexOf(c) * BASE.toDouble().pow(index).toLong()
+                }
+                val convertedString = baseTen.toString()
+
+                val pageEnd = convertedString[0].digitToInt() + 1
+                val page = convertedString.substring(1, pageEnd).toLong()
+                val userEnd = convertedString[pageEnd].digitToInt() + pageEnd + 1
+                val user = convertedString.substring(pageEnd+1, userEnd).toLong()
+                val state = convertedString.substring(userEnd).toLong()
+
+                return KeyDto(page, user, state)
+            } catch (ex: Exception) {
+                //TODO("Add logging for error")
+                //return null
+                throw ex
             }
-            val resultString = baseTen.toString()
-            val userLength = resultString.substring(0, 1).toInt()
-            return KeyDto(
-                resultString.substring(userLength + 1).toInt(),
-                resultString.substring(1, userLength+1).toInt()
-            )
         }
 
     }
 
 }
 
-data class KeyDto (val page: Int, val user: Int)
+data class KeyDto (
+    val page: Long,
+    val user: Long,
+    val state: Long,
+)
