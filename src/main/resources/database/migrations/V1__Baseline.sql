@@ -1,12 +1,12 @@
 CREATE TABLE pages (
     id           serial      PRIMARY KEY,
     label        text        NOT NULL UNIQUE,
-    state_delta  json,
+    state_delta  text,
     raw_content  text        NOT NULL,
     created_at   timestamp   NOT NULL,
-    created_by   text        NOT NULL,
+    created_by   text        NULL,
     modified_at  timestamp   NOT NULL,
-    modified_by  text   NOT NULL
+    modified_by  text        NULL
 );
 
 CREATE TABLE page_translations (
@@ -15,9 +15,9 @@ CREATE TABLE page_translations (
     locale       varchar(5)  NOT NULL,
     raw_content  text        NOT NULL,
     created_at   timestamp   NOT NULL,
-    created_by   text        NOT NULL,
+    created_by   text        NULL,
     modified_at  timestamp   NOT NULL,
-    modified_by  text   NOT NULL,
+    modified_by  text        NULL,
     UNIQUE (page_id, locale),
     FOREIGN KEY (page_id)
           REFERENCES pages (id)
@@ -30,9 +30,9 @@ CREATE TABLE navigation_options (
     text            text        NOT NULL,
     conditions      json,
     created_at      timestamp   NOT NULL,
-    created_by      text        NOT NULL,
+    created_by      text        NULL,
     modified_at     timestamp   NOT NULL,
-    modified_by     text        NOT NULL,
+    modified_by     text        NULL,
     FOREIGN KEY (source_page)
           REFERENCES pages (label),
     FOREIGN KEY (target_page)
@@ -40,21 +40,23 @@ CREATE TABLE navigation_options (
 );
 
 CREATE TABLE items (
-    id          text        PRIMARY KEY,
+    id          serial     PRIMARY KEY,
+    label       text        NOT NULL,
     comment     text,
     created_at  timestamp   NOT NULL,
-    created_by  text        NOT NULL,
+    created_by  text        NULL,
     modified_at timestamp   NOT NULL,
-    modified_by text        NOT NULL
+    modified_by text        NULL
 );
 
 CREATE TABLE events (
-    id          text        PRIMARY KEY,
+    id          serial      PRIMARY KEY,
+    label       text        NOT NULL,
     comment     text,
     created_at  timestamp   NOT NULL,
-    created_by  text        NOT NULL,
+    created_by  text        NULL,
     modified_at timestamp   NOT NULL,
-    modified_by text        NOT NULL
+    modified_by text        NULL
 );
 
 CREATE TABLE states (
@@ -62,32 +64,32 @@ CREATE TABLE states (
     event_hash  text        NOT NULL,
     item_hash   text        NOT NULL,
     created_at  timestamp   NOT NULL,
-    created_by  text        NOT NULL,
+    created_by  text        NULL,
     modified_at timestamp   NOT NULL,
-    modified_by text        NOT NULL,
+    modified_by text        NULL,
     UNIQUE (event_hash, item_hash)
 );
 
 CREATE TABLE state_items (
     id          serial      PRIMARY KEY,
     state_id    integer     NOT NULL,
-    item_id     text        NOT NULL,
+    item_id     integer     NOT NULL,
     amount      integer     NOT NULL DEFAULT 1,
     created_at  timestamp   NOT NULL,
-    created_by  text        NOT NULL,
+    created_by  text        NULL,
     modified_at timestamp   NOT NULL,
-    modified_by text        NOT NULL,
+    modified_by text        NULL,
     UNIQUE (state_id, item_id)
 );
 
 CREATE TABLE state_events (
     id          serial      PRIMARY KEY,
     state_id    integer     NOT NULL,
-    event_id    text        NOT NULL,
+    event_id    integer     NOT NULL,
     created_at  timestamp   NOT NULL,
-    created_by  text        NOT NULL,
+    created_by  text        NULL,
     modified_at timestamp   NOT NULL,
-    modified_by text        NOT NULL,
+    modified_by text        NULL,
     UNIQUE (state_id, event_id)
 );
 
@@ -95,9 +97,9 @@ CREATE TABLE users (
     id              serial      PRIMARY KEY,
     last_action_at  timestamp   NOT NULL,
     created_at      timestamp   NOT NULL,
-    created_by      text        NOT NULL,
+    created_by      text        NULL,
     modified_at     timestamp   NOT NULL,
-    modified_by     text        NOT NULL
+    modified_by     text        NULL
 );
 
 CREATE TABLE history (
