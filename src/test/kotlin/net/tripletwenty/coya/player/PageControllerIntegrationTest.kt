@@ -1,22 +1,19 @@
 package net.tripletwenty.coya.player
 
 import net.tripletwenty.coya.CoyaApplication
+import net.tripletwenty.coya.IntegrationTest
+import net.tripletwenty.coya.player.PageService.Companion.DEFAULT_LABEL
 import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
+import org.springframework.http.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 
-@SpringBootTest(classes = [CoyaApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PageControllerIntegrationTest {
-
-    @LocalServerPort
-    private val port = 0
+class PageControllerIntegrationTest: IntegrationTest() {
 
     val restTemplate = TestRestTemplate()
     val headers: HttpHeaders = HttpHeaders()
@@ -25,20 +22,28 @@ class PageControllerIntegrationTest {
     fun `Reading without a key opens start page`() {
         // Given
         val entity: HttpEntity<String> = HttpEntity(null, headers)
+        val defaultPageContent = "Default_text_with_some_noise"
+        createPage(
+            content = defaultPageContent,
+            label = DEFAULT_LABEL
+        )
         // When
         val response: ResponseEntity<String> = restTemplate.exchange(
             createURLWithPort("/api/v1/page/read"),
             HttpMethod.GET, entity, String::class.java
         )
         // Then
-        TODO("Adapt test")
-        val expected = """{"id":"Course1","name":"Spring","description":"10 Steps"}"""
+        val expected = """{"body":"$defaultPageContent","options": []}""".trimMargin()
 
         JSONAssert.assertEquals(expected, response.body, false)
-    }
 
-    private fun createURLWithPort(uri: String): String? {
-        return "http://localhost:$port$uri"
+        /*
+        mockMvc.perform(get("/api/v1/page/read").accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("\$.").value("test"))
+
+         */
     }
 
 }

@@ -1,5 +1,6 @@
 package net.tripletwenty.coya.player
 
+import net.tripletwenty.coya.player.dto.PageResponseDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,6 +12,8 @@ class PageController (
 ) {
 
     @GetMapping("/read")
-    fun getPage(page: String?) = pageService.getPage(page)
+    fun getPage(page: String?): PageResponseDto {
+        return pageService.getPage(page)
+    }
 
 }
