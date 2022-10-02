@@ -28,16 +28,16 @@ CREATE TABLE navigation_options (
     source_page     text        NOT NULL,
     target_page     text        NOT NULL,
     text            text        NOT NULL,
-    conditions      json,
+    conditions      text,
     created_at      timestamp   NOT NULL,
     created_by      text        NULL,
     modified_at     timestamp   NOT NULL,
     modified_by     text        NULL,
     FOREIGN KEY (source_page)
-          REFERENCES pages (label),
-    FOREIGN KEY (target_page)
           REFERENCES pages (label)
 );
+-- target_page is not a FK, because the option can be created
+-- before the page exists
 
 CREATE TABLE items (
     id          serial     PRIMARY KEY,
