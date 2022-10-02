@@ -49,5 +49,4 @@ class NumberConverterTest {
         // Then
         assertThat(decoded, `is`(key))
     }
-
 }

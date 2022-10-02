@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/page")
-class PageController (
+class PageController(
     private val pageService: PageService
 ) {
 
@@ -15,5 +15,4 @@ class PageController (
     fun getPage(page: String?): PageResponseDto {
         return pageService.getPage(page)
     }
-
 }

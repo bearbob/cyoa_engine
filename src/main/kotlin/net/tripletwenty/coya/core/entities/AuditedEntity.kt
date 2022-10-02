@@ -40,5 +40,4 @@ abstract class AuditedEntity {
     }
 
     override fun hashCode(): Int = 1756406093
-
 }

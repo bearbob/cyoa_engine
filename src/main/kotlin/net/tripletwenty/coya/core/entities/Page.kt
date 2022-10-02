@@ -1,17 +1,12 @@
 package net.tripletwenty.coya.core.entities
 
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.Instant
-import java.time.OffsetDateTime
-import javax.persistence.*
-
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Table
 
 @Entity
 @Table(name = "pages")
-class Page (
+class Page(
 
     @Column(nullable = false)
     val label: String,
@@ -19,6 +14,6 @@ class Page (
     val state_delta: String? = null,
 
     @Column(name = "raw_content")
-    val  content: String,
+    val content: String,
 
-) :AuditedEntity()
+) : AuditedEntity()

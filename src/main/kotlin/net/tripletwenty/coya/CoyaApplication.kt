@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 class CoyaApplication
 
 fun main(args: Array<String>) {
-	runApplication<CoyaApplication>(*args)
+    runApplication<CoyaApplication>(*args)
 }

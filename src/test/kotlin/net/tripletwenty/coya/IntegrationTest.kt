@@ -21,7 +21,7 @@ abstract class IntegrationTest {
 
     internal fun createPage(
         content: String = "default_content",
-        label: String  = "default_label",
+        label: String = "default_label",
     ): Page {
         return pageRepository.save(
             Page(
@@ -30,5 +30,4 @@ abstract class IntegrationTest {
             )
         )
     }
-
 }

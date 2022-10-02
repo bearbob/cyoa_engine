@@ -1,19 +1,16 @@
 package net.tripletwenty.coya.player
 
-import net.tripletwenty.coya.CoyaApplication
 import net.tripletwenty.coya.IntegrationTest
 import net.tripletwenty.coya.player.PageService.Companion.DEFAULT_LABEL
 import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.http.*
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
 
-
-class PageControllerIntegrationTest: IntegrationTest() {
+class PageControllerIntegrationTest : IntegrationTest() {
 
     val restTemplate = TestRestTemplate()
     val headers: HttpHeaders = HttpHeaders()
@@ -45,5 +42,4 @@ class PageControllerIntegrationTest: IntegrationTest() {
 
          */
     }
-
 }

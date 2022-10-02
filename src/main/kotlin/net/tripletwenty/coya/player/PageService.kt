@@ -7,7 +7,7 @@ import net.tripletwenty.coya.utils.NumberConverter
 import org.springframework.stereotype.Service
 
 @Service
-class PageService (
+class PageService(
     val pageRepository: PageRepository
 ) {
 
@@ -30,5 +30,4 @@ class PageService (
             emptyList()
         )
     }
-
 }

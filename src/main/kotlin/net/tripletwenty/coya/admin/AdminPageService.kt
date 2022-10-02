@@ -22,5 +22,4 @@ class AdminPageService {
     fun addNavigationOptionToPage(pageId: String, option: OptionDto): AdminPageDto {
         TODO("Not implemented yet")
     }
-
 }

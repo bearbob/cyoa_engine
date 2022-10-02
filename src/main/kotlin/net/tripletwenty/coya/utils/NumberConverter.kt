@@ -48,22 +48,20 @@ class NumberConverter {
                 val pageEnd = convertedString[0].digitToInt() + 1
                 val page = convertedString.substring(1, pageEnd).toLong()
                 val userEnd = convertedString[pageEnd].digitToInt() + pageEnd + 1
-                val user = convertedString.substring(pageEnd+1, userEnd).toLong()
+                val user = convertedString.substring(pageEnd + 1, userEnd).toLong()
                 val state = convertedString.substring(userEnd).toLong()
 
                 return KeyDto(page, user, state)
             } catch (ex: Exception) {
-                //TODO("Add logging for error")
-                //return null
+                // TODO("Add logging for error")
+                // return null
                 throw ex
             }
         }
-
     }
-
 }
 
-data class KeyDto (
+data class KeyDto(
     val page: Long,
     val user: Long,
     val state: Long,
