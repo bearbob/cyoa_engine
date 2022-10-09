@@ -24,6 +24,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
             content = defaultPageContent,
             label = DEFAULT_LABEL
         )
+        createOption(DEFAULT_LABEL, "other_label", "Shown")
         // When
         val response: ResponseEntity<String> = restTemplate.exchange(
             createURLWithPort("/api/v1/page/read"),

@@ -1,6 +1,11 @@
 package net.tripletwenty.coya.core.entities
 
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "page_translations")
@@ -20,5 +25,4 @@ class PageTranslation(
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "page_id", referencedColumnName = "id")
     lateinit var page: Page
-
 }

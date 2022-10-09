@@ -37,7 +37,8 @@ CREATE TABLE navigation_options (
           REFERENCES pages (label)
 );
 -- target_page is not a FK, because the option can be created
--- before the page exists
+-- before the page exists. But it is still required to give
+-- the label
 
 CREATE TABLE items (
     id          serial     PRIMARY KEY,

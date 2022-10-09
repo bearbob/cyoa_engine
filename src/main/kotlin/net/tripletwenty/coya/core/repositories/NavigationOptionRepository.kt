@@ -2,7 +2,7 @@ package net.tripletwenty.coya.core.repositories
 
 import net.tripletwenty.coya.core.entities.NavigationOption
 import org.springframework.data.repository.CrudRepository
-import java.util.*
+import java.util.Optional
 
 interface NavigationOptionRepository : CrudRepository<NavigationOption, Long> {
 

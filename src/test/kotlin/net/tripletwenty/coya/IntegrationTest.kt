@@ -1,5 +1,6 @@
 package net.tripletwenty.coya
 
+import net.tripletwenty.coya.core.entities.NavigationOption
 import net.tripletwenty.coya.core.entities.Page
 import net.tripletwenty.coya.core.repositories.PageRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,20 @@ abstract class IntegrationTest {
                 content = content,
                 label = label
             )
+        )
+    }
+
+    internal fun createOption(
+        sourcePage: String,
+        targetPage: String,
+        text: String = "Option",
+        conditions: String? = null,
+    ): NavigationOption {
+        return NavigationOption(
+            sourcePage,
+            targetPage,
+            text,
+            conditions,
         )
     }
 }
