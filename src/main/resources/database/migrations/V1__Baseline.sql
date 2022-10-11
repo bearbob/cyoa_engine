@@ -11,7 +11,7 @@ CREATE TABLE pages (
 
 CREATE TABLE page_translations (
     id           serial      PRIMARY KEY,
-    page_id      integer     NOT NULL,
+    page_id      bigint     NOT NULL,
     locale       varchar(5)  NOT NULL,
     raw_content  text        NOT NULL,
     created_at   timestamp   NOT NULL,
@@ -62,8 +62,8 @@ CREATE TABLE events (
 
 CREATE TABLE states (
     id          serial      PRIMARY KEY,
-    event_hash  text        NOT NULL,
-    item_hash   text        NOT NULL,
+    event_hash  text,
+    item_hash   text,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
@@ -73,25 +73,33 @@ CREATE TABLE states (
 
 CREATE TABLE state_items (
     id          serial      PRIMARY KEY,
-    state_id    integer     NOT NULL,
-    item_id     integer     NOT NULL,
+    state_id    bigint     NOT NULL,
+    item_id     bigint     NOT NULL,
     amount      integer     NOT NULL DEFAULT 1,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
     modified_by text        NULL,
-    UNIQUE (state_id, item_id)
+    UNIQUE (state_id, item_id),
+    FOREIGN KEY (state_id)
+        REFERENCES states (id),
+    FOREIGN KEY (item_id)
+        REFERENCES items (id)
 );
 
 CREATE TABLE state_events (
     id          serial      PRIMARY KEY,
-    state_id    integer     NOT NULL,
-    event_id    integer     NOT NULL,
+    state_id    bigint     NOT NULL,
+    event_id    bigint     NOT NULL,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
     modified_by text        NULL,
-    UNIQUE (state_id, event_id)
+    UNIQUE (state_id, event_id),
+    FOREIGN KEY (state_id)
+        REFERENCES states (id),
+    FOREIGN KEY (event_id)
+        REFERENCES events (id)
 );
 
 CREATE TABLE users (
@@ -105,9 +113,9 @@ CREATE TABLE users (
 
 CREATE TABLE history (
     id          serial      PRIMARY KEY,
-    user_id     integer     NOT NULL,
-    page_id     integer     NOT NULL,
-    state_id    integer     NOT NULL,
+    user_id     bigint     NOT NULL,
+    page_id     bigint     NOT NULL,
+    state_id    bigint     NOT NULL,
     created_at  timestamp   NOT NULL,
     FOREIGN KEY (user_id)
               REFERENCES users (id),
