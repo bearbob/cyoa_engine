@@ -1,6 +1,7 @@
 package net.tripletwenty.coya.player
 
 import net.tripletwenty.coya.core.entities.Page
+import net.tripletwenty.coya.core.entities.StateDelta
 import net.tripletwenty.coya.core.entities.User
 import net.tripletwenty.coya.core.repositories.NavigationOptionRepository
 import net.tripletwenty.coya.core.repositories.PageRepository
@@ -51,7 +52,7 @@ class PageService(
             }
             user.lastActionAt = Instant.now()
             userRepository.save(user)
-            val newState = updateState(key.state, page.state_delta)
+            val newState = updateState(key.state, page.getStateDelta())
             Pair(user.id!!, newState)
         }
         val result = mutableListOf<OptionDto>()
@@ -65,8 +66,12 @@ class PageService(
         return result
     }
 
-    fun updateState(state: Long, state_delta: String?): Long {
-        if (state_delta == null) return state
+    fun updateState(state: Long, delta: StateDelta): Long {
+        if (delta.isEmpty()) return state
         TODO()
+        // TODO get state entity
+        // check what changed in delta - only items/events or both?
+        // generate new hash for changed entities, store new entities
+        // return id of new state
     }
 }
