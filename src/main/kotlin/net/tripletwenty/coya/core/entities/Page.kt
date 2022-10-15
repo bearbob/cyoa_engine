@@ -25,7 +25,6 @@ class Page(
             return mapper.readValue(this.stateDelta, StateDelta::class.java)
         } ?: StateDelta()
     }
-
 }
 
 data class StateDelta(
@@ -37,7 +36,13 @@ data class StateDelta(
     }
 }
 
-data class ItemDelta (
+data class ItemDelta(
     val label: String,
     val change: Int,
+    val mode: ItemChangeMode,
 )
+
+enum class ItemChangeMode {
+    ADD,
+    REMOVE;
+}

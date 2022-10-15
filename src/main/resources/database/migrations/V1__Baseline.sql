@@ -41,8 +41,8 @@ CREATE TABLE navigation_options (
 -- the label
 
 CREATE TABLE items (
-    id          serial     PRIMARY KEY,
-    label       text        NOT NULL,
+    id          serial      PRIMARY KEY,
+    label       text        NOT NULL UNIQUE,
     comment     text,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
@@ -52,7 +52,7 @@ CREATE TABLE items (
 
 CREATE TABLE events (
     id          serial      PRIMARY KEY,
-    label       text        NOT NULL,
+    label       text        NOT NULL UNIQUE,
     comment     text,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
@@ -73,8 +73,8 @@ CREATE TABLE states (
 
 CREATE TABLE state_items (
     id          serial      PRIMARY KEY,
-    state_id    bigint     NOT NULL,
-    item_id     bigint     NOT NULL,
+    state_id    bigint      NOT NULL,
+    item_label  text        NOT NULL,
     amount      integer     NOT NULL DEFAULT 1,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
@@ -83,14 +83,14 @@ CREATE TABLE state_items (
     UNIQUE (state_id, item_id),
     FOREIGN KEY (state_id)
         REFERENCES states (id),
-    FOREIGN KEY (item_id)
-        REFERENCES items (id)
+    FOREIGN KEY (item_label)
+        REFERENCES items (label)
 );
 
 CREATE TABLE state_events (
     id          serial      PRIMARY KEY,
-    state_id    bigint     NOT NULL,
-    event_id    bigint     NOT NULL,
+    state_id    bigint      NOT NULL,
+    event_label text        NOT NULL,
     created_at  timestamp   NOT NULL,
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
@@ -98,8 +98,8 @@ CREATE TABLE state_events (
     UNIQUE (state_id, event_id),
     FOREIGN KEY (state_id)
         REFERENCES states (id),
-    FOREIGN KEY (event_id)
-        REFERENCES events (id)
+    FOREIGN KEY (event_label)
+        REFERENCES events (label)
 );
 
 CREATE TABLE users (

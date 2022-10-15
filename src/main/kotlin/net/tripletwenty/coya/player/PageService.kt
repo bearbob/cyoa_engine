@@ -1,13 +1,21 @@
 package net.tripletwenty.coya.player
 
+import net.tripletwenty.coya.core.entities.ItemChangeMode
 import net.tripletwenty.coya.core.entities.Page
+import net.tripletwenty.coya.core.entities.State
 import net.tripletwenty.coya.core.entities.StateDelta
+import net.tripletwenty.coya.core.entities.StateEvent
+import net.tripletwenty.coya.core.entities.StateItem
 import net.tripletwenty.coya.core.entities.User
 import net.tripletwenty.coya.core.repositories.NavigationOptionRepository
 import net.tripletwenty.coya.core.repositories.PageRepository
+import net.tripletwenty.coya.core.repositories.StateEventRepository
+import net.tripletwenty.coya.core.repositories.StateItemRepository
+import net.tripletwenty.coya.core.repositories.StateRepository
 import net.tripletwenty.coya.core.repositories.UserRepository
 import net.tripletwenty.coya.player.dto.OptionDto
 import net.tripletwenty.coya.player.dto.PageResponseDto
+import net.tripletwenty.coya.utils.Hasher
 import net.tripletwenty.coya.utils.KeyDto
 import net.tripletwenty.coya.utils.NumberConverter
 import org.springframework.stereotype.Service
@@ -18,6 +26,9 @@ class PageService(
     val pageRepository: PageRepository,
     val navigationOptionRepository: NavigationOptionRepository,
     val userRepository: UserRepository,
+    val stateRepository: StateRepository,
+    val stateItemRepository: StateItemRepository,
+    val stateEventRepository: StateEventRepository,
 ) {
 
     companion object {
@@ -25,53 +36,94 @@ class PageService(
     }
 
     fun getPage(pageKey: String?): PageResponseDto {
-        val key = NumberConverter.decode(pageKey)
-        val page: Page = key?.let {
-            pageRepository.findById(it.page).orElse(
-                pageRepository.findByLabel(DEFAULT_LABEL)!!
-            )
+        var key = NumberConverter.decode(pageKey)
+        if (key == null) {
+            val user = userRepository.save(User())
+            key = KeyDto(0L, user.id!!, 0L)
         }
-            ?: pageRepository.findByLabel(DEFAULT_LABEL)!!
-        val options = getOptions(page, key)
+
+        var page = pageRepository.findById(key.page).orElse(null)
+
+        var state = stateRepository.findById(key.state).orElse(null)
+        if (page == null || state == null) {
+            page = pageRepository.findByLabel(DEFAULT_LABEL)!!
+            state = stateRepository.save(State())
+        }
+        val newState = updateState(state, page.getStateDelta())
+
+        val user = userRepository.findById(key.user).orElseGet {
+            userRepository.save(User())
+        }
+
+        user.lastActionAt = Instant.now()
+        userRepository.save(user)
+
+        val options = getOptions(page, user.id!!, newState)
         return PageResponseDto(
             page.content,
             options
         )
     }
 
-    fun getOptions(page: Page, key: KeyDto?): List<OptionDto> {
+    fun getOptions(page: Page, userId: Long, stateId: Long): List<OptionDto> {
         val options = navigationOptionRepository.findBySourcePage(page.label)
-        val updatedUserState: Pair<Long, Long> = if (page.label == DEFAULT_LABEL || key == null) {
-            // reset state, create new user
-            val user = userRepository.save(User())
-            Pair(user.id!!, 0L)
-        } else {
-            // apply state change to key
-            val user = userRepository.findById(key.user).orElseGet {
-                userRepository.save(User())
-            }
-            user.lastActionAt = Instant.now()
-            userRepository.save(user)
-            val newState = updateState(key.state, page.getStateDelta())
-            Pair(user.id!!, newState)
-        }
+
         val result = mutableListOf<OptionDto>()
         options.forEach {
             val target = pageRepository.findByLabel(it.targetPage)
                 ?: return@forEach
             val pageKey = NumberConverter.encode(
-                KeyDto(target.id!!, updatedUserState.first, updatedUserState.second)
+                KeyDto(target.id!!, userId, stateId)
             )
+            result.add(OptionDto(it.text, pageKey))
         }
         return result
     }
 
-    fun updateState(state: Long, delta: StateDelta): Long {
-        if (delta.isEmpty()) return state
-        TODO()
-        // TODO get state entity
-        // check what changed in delta - only items/events or both?
-        // generate new hash for changed entities, store new entities
-        // return id of new state
+    fun updateState(state: State, delta: StateDelta): Long {
+        if (delta.isEmpty()) return state.id!!
+
+        val adaptedItems: MutableList<StateItem> = state.items?.toMutableList()
+            ?: mutableListOf()
+        delta.items?.forEach { delta ->
+            if (delta.mode == ItemChangeMode.ADD) {
+                adaptedItems.firstOrNull { it.itemLabel == delta.label }?.apply {
+                    this.amount += delta.change
+                } ?: adaptedItems.add(StateItem(0L, delta.label, delta.change))
+            } else {
+                adaptedItems.first {
+                    it.itemLabel == delta.label && it.amount >= delta.change
+                }.apply {
+                    this.amount -= delta.change
+                }
+            }
+        }
+        adaptedItems.sortBy { it.itemLabel }
+
+        val adaptedEvents: MutableSet<String> = state.events?.map {
+            it.eventLabel
+        }?.toMutableSet()
+            ?: mutableSetOf()
+        if (delta.events != null) {
+            adaptedEvents.addAll(delta.events)
+        }
+        val newItemHash = Hasher.hash(adaptedItems.joinToString { it.toString() })
+        val newEventHash = Hasher.hash(adaptedEvents.sorted().joinToString { it })
+        val matchingState = stateRepository.findByItemHashAndEventHash(newItemHash, newEventHash)
+        if (matchingState != null) {
+            return matchingState.id!!
+        }
+        val newState = stateRepository.save(
+            State(newEventHash, newItemHash)
+        )
+        // update the lists with the new ID
+        val stateEvents: List<StateEvent> = adaptedEvents.map {
+            StateEvent(newState.id!!, it)
+        }
+        val stateItems: List<StateItem> = adaptedItems.map { StateItem(newState.id!!, it.itemLabel, it.amount) }
+        stateItemRepository.saveAll(stateItems)
+        stateEventRepository.saveAll(stateEvents)
+
+        return newState.id!!
     }
 }
