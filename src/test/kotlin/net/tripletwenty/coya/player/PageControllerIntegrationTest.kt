@@ -20,27 +20,32 @@ class PageControllerIntegrationTest : IntegrationTest() {
         // Given
         val entity: HttpEntity<String> = HttpEntity(null, headers)
         val defaultPageContent = "Default_text_with_some_noise"
+        val secondPageLabel = "second_page"
         createPage(
             content = defaultPageContent,
             label = DEFAULT_LABEL
         )
-        createOption(DEFAULT_LABEL, "other_label", "Shown")
+        createPage(
+            content = defaultPageContent.reversed(),
+            label = secondPageLabel
+        )
+        createOption(DEFAULT_LABEL, secondPageLabel, "Shown")
+        createOption(DEFAULT_LABEL, "whatever_label", "Hidden")
         // When
         val response: ResponseEntity<String> = restTemplate.exchange(
             createURLWithPort("/api/v1/page/read"),
             HttpMethod.GET, entity, String::class.java
         )
         // Then
-        val expected = """{"body":"$defaultPageContent","options": []}""".trimMargin()
+        val expected = """
+            {
+                "body":"$defaultPageContent",
+                "options": [
+                    {"text": "Shown", "url": "4co"}
+                ]
+            }
+        """.trimMargin()
 
         JSONAssert.assertEquals(expected, response.body, false)
-
-        /*
-        mockMvc.perform(get("/api/v1/page/read").accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk)
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("\$.").value("test"))
-
-         */
     }
 }

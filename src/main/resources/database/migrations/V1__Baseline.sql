@@ -80,7 +80,7 @@ CREATE TABLE state_items (
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
     modified_by text        NULL,
-    UNIQUE (state_id, item_id),
+    UNIQUE (state_id, item_label),
     FOREIGN KEY (state_id)
         REFERENCES states (id),
     FOREIGN KEY (item_label)
@@ -95,7 +95,7 @@ CREATE TABLE state_events (
     created_by  text        NULL,
     modified_at timestamp   NOT NULL,
     modified_by text        NULL,
-    UNIQUE (state_id, event_id),
+    UNIQUE (state_id, event_label),
     FOREIGN KEY (state_id)
         REFERENCES states (id),
     FOREIGN KEY (event_label)

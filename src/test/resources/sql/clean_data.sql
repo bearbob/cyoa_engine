@@ -1,0 +1,10 @@
+DELETE FROM history;
+DELETE FROM users;
+DELETE FROM state_events;
+DELETE FROM state_items;
+DELETE FROM states;
+DELETE FROM events;
+DELETE FROM items;
+DELETE FROM navigation_options;
+DELETE FROM page_translations;
+DELETE FROM pages;

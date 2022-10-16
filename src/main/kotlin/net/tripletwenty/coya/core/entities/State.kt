@@ -1,5 +1,6 @@
 package net.tripletwenty.coya.core.entities
 
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
@@ -24,6 +25,7 @@ class State(
 @Entity
 @Table(name = "state_items")
 class StateItem(
+    @Column(name = "state_id")
     val stateId: Long,
     val itemLabel: String,
     var amount: Int,
@@ -36,6 +38,7 @@ class StateItem(
 @Entity
 @Table(name = "state_events")
 class StateEvent(
+    @Column(name = "state_id")
     val stateId: Long,
     val eventLabel: String,
 ) : AuditedEntity()
