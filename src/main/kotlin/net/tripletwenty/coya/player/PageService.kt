@@ -85,16 +85,16 @@ class PageService(
 
         val adaptedItems: MutableList<StateItem> = state.items?.toMutableList()
             ?: mutableListOf()
-        delta.items?.forEach { delta ->
-            if (delta.mode == ItemChangeMode.ADD) {
-                adaptedItems.firstOrNull { it.itemLabel == delta.label }?.apply {
-                    this.amount += delta.change
-                } ?: adaptedItems.add(StateItem(0L, delta.label, delta.change))
+        delta.items?.forEach { itemDelta ->
+            if (itemDelta.mode == ItemChangeMode.ADD) {
+                adaptedItems.firstOrNull { it.itemLabel == itemDelta.label }?.apply {
+                    this.amount += itemDelta.change
+                } ?: adaptedItems.add(StateItem(0L, itemDelta.label, itemDelta.change))
             } else {
                 adaptedItems.first {
-                    it.itemLabel == delta.label && it.amount >= delta.change
+                    it.itemLabel == itemDelta.label && it.amount >= itemDelta.change
                 }.apply {
-                    this.amount -= delta.change
+                    this.amount -= itemDelta.change
                 }
             }
         }

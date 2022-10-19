@@ -41,7 +41,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
             {
                 "body":"$defaultPageContent",
                 "options": [
-                    {"text": "Shown", "url": "4co"}
+                    {"text": "Shown", "url": "39l"}
                 ]
             }
         """.trimMargin()
