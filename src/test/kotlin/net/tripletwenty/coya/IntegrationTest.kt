@@ -1,7 +1,14 @@
 package net.tripletwenty.coya
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import net.tripletwenty.coya.core.entities.Event
+import net.tripletwenty.coya.core.entities.Item
 import net.tripletwenty.coya.core.entities.NavigationOption
 import net.tripletwenty.coya.core.entities.Page
+import net.tripletwenty.coya.core.entities.State
+import net.tripletwenty.coya.core.entities.StateDelta
+import net.tripletwenty.coya.core.repositories.EventRepository
+import net.tripletwenty.coya.core.repositories.ItemRepository
 import net.tripletwenty.coya.core.repositories.NavigationOptionRepository
 import net.tripletwenty.coya.core.repositories.PageRepository
 import net.tripletwenty.coya.core.repositories.StateRepository
@@ -30,6 +37,14 @@ abstract class IntegrationTest {
     @Autowired
     lateinit var stateRepository: StateRepository
 
+    @Autowired
+    lateinit var itemRepository: ItemRepository
+
+    @Autowired
+    lateinit var eventRepository: EventRepository
+
+    val mapper = ObjectMapper()
+
     internal fun createURLWithPort(uri: String): String? {
         return "http://localhost:$port$uri"
     }
@@ -37,11 +52,13 @@ abstract class IntegrationTest {
     internal fun createPage(
         content: String = "default_content",
         label: String = "default_label",
+        delta: StateDelta? = null
     ): Page {
         return pageRepository.save(
             Page(
                 content = content,
-                label = label
+                label = label,
+                stateDelta = if(delta == null) null else mapper.writeValueAsString(delta)
             )
         )
     }
@@ -60,5 +77,23 @@ abstract class IntegrationTest {
                 conditions,
             )
         )
+    }
+
+    internal fun createItem(
+        label: String = "item",
+        comment: String = "",
+    ): Item {
+        return itemRepository.save(Item(label, comment))
+    }
+
+    internal fun createEvent(
+        label: String = "event",
+        comment: String = "",
+    ): Event {
+        return eventRepository.save(Event(label, comment))
+    }
+
+    internal fun createState() {
+        stateRepository.save(State())
     }
 }

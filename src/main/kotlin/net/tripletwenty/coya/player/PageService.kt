@@ -90,7 +90,7 @@ class PageService(
     }
 
     fun updateState(state: State, delta: StateDelta): Long {
-        if (delta.isEmpty()) return state.id!!
+        if (delta.items.isNullOrEmpty() && delta.events.isNullOrEmpty()) return state.id!!
 
         val adaptedItems: MutableList<StateItem> = state.items?.toMutableList()
             ?: mutableListOf()

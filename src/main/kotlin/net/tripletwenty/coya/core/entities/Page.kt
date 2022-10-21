@@ -1,5 +1,6 @@
 package net.tripletwenty.coya.core.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -30,15 +31,14 @@ class Page(
 data class StateDelta(
     val items: List<ItemDelta>? = null,
     val events: List<String>? = null,
-) {
-    fun isEmpty(): Boolean {
-        return items.isNullOrEmpty() && events.isNullOrEmpty()
-    }
-}
+)
 
 data class ItemDelta(
+    @JsonProperty("label")
     val label: String,
+    @JsonProperty("change")
     val change: Int,
+    @JsonProperty("mode")
     val mode: ItemChangeMode,
 )
 
