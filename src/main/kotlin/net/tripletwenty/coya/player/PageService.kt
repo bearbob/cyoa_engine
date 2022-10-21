@@ -1,5 +1,6 @@
 package net.tripletwenty.coya.player
 
+import net.tripletwenty.coya.core.entities.History
 import net.tripletwenty.coya.core.entities.ItemChangeMode
 import net.tripletwenty.coya.core.entities.Page
 import net.tripletwenty.coya.core.entities.State
@@ -7,6 +8,7 @@ import net.tripletwenty.coya.core.entities.StateDelta
 import net.tripletwenty.coya.core.entities.StateEvent
 import net.tripletwenty.coya.core.entities.StateItem
 import net.tripletwenty.coya.core.entities.User
+import net.tripletwenty.coya.core.repositories.HistoryRepository
 import net.tripletwenty.coya.core.repositories.NavigationOptionRepository
 import net.tripletwenty.coya.core.repositories.PageRepository
 import net.tripletwenty.coya.core.repositories.StateEventRepository
@@ -29,6 +31,7 @@ class PageService(
     val stateRepository: StateRepository,
     val stateItemRepository: StateItemRepository,
     val stateEventRepository: StateEventRepository,
+    val historyRepository: HistoryRepository,
 ) {
 
     companion object {
@@ -49,12 +52,18 @@ class PageService(
             page = pageRepository.findByLabel(DEFAULT_LABEL)!!
             state = stateRepository.save(State())
         }
-        val newState = updateState(state, page.getStateDelta())
 
         val user = userRepository.findById(key.user).orElseGet {
             userRepository.save(User())
         }
+        
+        historyRepository.save(History(
+            user.id!!,
+            page.id!!,
+            state.id!!
+        ))
 
+        val newState = updateState(state, page.getStateDelta())
         user.lastActionAt = Instant.now()
         userRepository.save(user)
 

@@ -112,11 +112,11 @@ CREATE TABLE users (
 );
 
 CREATE TABLE history (
-    id          serial      PRIMARY KEY,
+    id          serial     PRIMARY KEY,
     user_id     bigint     NOT NULL,
     page_id     bigint     NOT NULL,
     state_id    bigint     NOT NULL,
-    created_at  timestamp   NOT NULL,
+    created_at  timestamp  NOT NULL,
     FOREIGN KEY (user_id)
               REFERENCES users (id),
     FOREIGN KEY (page_id)
