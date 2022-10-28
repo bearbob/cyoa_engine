@@ -5,6 +5,7 @@ import net.tripletwenty.coya.core.entities.Event
 import net.tripletwenty.coya.core.entities.Item
 import net.tripletwenty.coya.core.entities.NavigationOption
 import net.tripletwenty.coya.core.entities.Page
+import net.tripletwenty.coya.core.entities.PageStatus
 import net.tripletwenty.coya.core.entities.State
 import net.tripletwenty.coya.core.entities.StateDelta
 import net.tripletwenty.coya.core.repositories.EventRepository
@@ -58,7 +59,8 @@ abstract class IntegrationTest {
             Page(
                 content = content,
                 label = label,
-                stateDelta = if(delta == null) null else mapper.writeValueAsString(delta)
+                stateDelta = if(delta == null) null else mapper.writeValueAsString(delta),
+                status = PageStatus.PUBLISHED
             )
         )
     }

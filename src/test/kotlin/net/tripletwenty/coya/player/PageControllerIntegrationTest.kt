@@ -33,7 +33,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
             {
                 "body":"Default_text_with_some_noise",
                 "options": [
-                    {"text": "Shown", "url": "39l"}
+                    {"text": "Shown", "url": "39m"}
                 ]
             }
         """.trimMargin()

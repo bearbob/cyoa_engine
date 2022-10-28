@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.Table
 
 @Entity
@@ -18,6 +20,7 @@ class Page(
     @Column(name = "raw_content")
     val content: String,
 
+    @Enumerated(EnumType.STRING)
     val status: PageStatus,
 
 ) : AuditedEntity() {

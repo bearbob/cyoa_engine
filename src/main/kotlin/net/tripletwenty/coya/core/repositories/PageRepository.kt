@@ -8,12 +8,12 @@ import java.util.*
 interface PageRepository : CrudRepository<Page, Long> {
 
     @Query(
-        value = "SELECT * FROM pages p WHERE p.id = 1? AND p.status = 'PUBLISHED'",
+        value = "SELECT * FROM pages p WHERE p.id = ?1 AND p.status = 'PUBLISHED'",
         nativeQuery = true)
     override fun findById(id: Long): Optional<Page>
 
     @Query(
-        value = "SELECT * FROM pages p WHERE p.label = 1? AND p.status = 'PUBLISHED'",
+        value = "SELECT * FROM pages p WHERE p.label = ?1 AND p.status = 'PUBLISHED'",
         nativeQuery = true)
     fun findByLabel(label: String): Page?
 }
