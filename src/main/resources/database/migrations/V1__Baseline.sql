@@ -3,6 +3,7 @@ CREATE TABLE pages (
     label        text        NOT NULL UNIQUE,
     state_delta  text,
     raw_content  text        NOT NULL,
+    status       text        NOT NULL,
     created_at   timestamp   NOT NULL,
     created_by   text        NULL,
     modified_at  timestamp   NOT NULL,

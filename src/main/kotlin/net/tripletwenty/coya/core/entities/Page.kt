@@ -18,6 +18,8 @@ class Page(
     @Column(name = "raw_content")
     val content: String,
 
+    val status: PageStatus,
+
 ) : AuditedEntity() {
 
     fun getStateDelta(): StateDelta {
@@ -44,5 +46,11 @@ data class ItemDelta(
 
 enum class ItemChangeMode {
     ADD,
-    REMOVE;
+    REMOVE
+}
+
+enum class PageStatus {
+    DRAFT,
+    PUBLISHED,
+    DELETED
 }
