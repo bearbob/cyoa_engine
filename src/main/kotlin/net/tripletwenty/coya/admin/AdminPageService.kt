@@ -11,6 +11,10 @@ class AdminPageService {
         TODO("Not implemented yet")
     }
 
+    fun loadDefaultPages(): Boolean {
+        TODO("Not implemented yet")
+    }
+
     fun updatePage(page: AdminPageDto): AdminPageDto {
         TODO("Not implemented yet")
     }

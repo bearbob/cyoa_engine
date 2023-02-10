@@ -1,8 +1,8 @@
 package net.tripletwenty.coya.core.entities
 
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
 import java.time.Instant
-import javax.persistence.Entity
-import javax.persistence.Table
 
 @Entity
 @Table(name = "users")

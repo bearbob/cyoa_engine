@@ -56,12 +56,14 @@ class PageService(
         val user = userRepository.findById(key.user).orElseGet {
             userRepository.save(User())
         }
-        
-        historyRepository.save(History(
-            user.id!!,
-            page.id!!,
-            state.id!!
-        ))
+
+        historyRepository.save(
+            History(
+                user.id!!,
+                page.id!!,
+                state.id!!
+            )
+        )
 
         val newState = updateState(state, page.getStateDelta())
         user.lastActionAt = Instant.now()

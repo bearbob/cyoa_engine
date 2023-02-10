@@ -12,4 +12,7 @@ class AdminPageController(
 
     @GetMapping("/read")
     fun getPage(pageKey: String) = pageService.getPage(pageKey)
+
+    @GetMapping("/load")
+    fun loadDefaultPages() = pageService.loadDefaultPages()
 }

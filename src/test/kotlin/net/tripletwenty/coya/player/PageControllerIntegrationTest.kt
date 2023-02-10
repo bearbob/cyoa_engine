@@ -84,11 +84,13 @@ class PageControllerIntegrationTest : IntegrationTest() {
             content = "Second page content",
             label = secondPageLabel,
             delta = StateDelta(
-                listOf(ItemDelta(
-                    "item",
-                    2,
-                    ItemChangeMode.ADD
-                )),
+                listOf(
+                    ItemDelta(
+                        "item",
+                        2,
+                        ItemChangeMode.ADD
+                    )
+                ),
                 listOf("event")
             )
         )

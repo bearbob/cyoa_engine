@@ -16,7 +16,7 @@ import net.tripletwenty.coya.core.repositories.StateRepository
 import net.tripletwenty.coya.core.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.jdbc.Sql
 
 @SpringBootTest(classes = [CoyaApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -59,7 +59,7 @@ abstract class IntegrationTest {
             Page(
                 content = content,
                 label = label,
-                stateDelta = if(delta == null) null else mapper.writeValueAsString(delta),
+                stateDelta = if (delta == null) null else mapper.writeValueAsString(delta),
                 status = PageStatus.PUBLISHED
             )
         )
