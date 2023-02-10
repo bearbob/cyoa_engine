@@ -5,12 +5,14 @@ import net.tripletwenty.coya.core.entities.ItemChangeMode
 import net.tripletwenty.coya.core.entities.ItemDelta
 import net.tripletwenty.coya.core.entities.StateDelta
 import net.tripletwenty.coya.player.PageService.Companion.DEFAULT_LABEL
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 
 class PageControllerIntegrationTest : IntegrationTest() {
@@ -37,7 +39,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
                 ]
             }
         """.trimMargin()
-
+        assertThat(response.statusCode).isEqualTo(HttpStatusCode.valueOf(200))
         JSONAssert.assertEquals(expected, response.body, false)
     }
 
@@ -64,7 +66,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
                 ]
             }
         """.trimMargin()
-
+        assertThat(response.statusCode).isEqualTo(HttpStatusCode.valueOf(200))
         JSONAssert.assertEquals(expected, response.body, false)
     }
 
@@ -72,7 +74,7 @@ class PageControllerIntegrationTest : IntegrationTest() {
         val defaultPageContent = "Default_text_with_some_noise"
         val secondPageLabel = "second_page"
         createPage(
-            content = "Default_text_with_some_noise",
+            content = defaultPageContent,
             label = DEFAULT_LABEL
         )
         createOption(DEFAULT_LABEL, secondPageLabel, "Shown")

@@ -25,6 +25,8 @@ class Page(
 
 ) : AuditedEntity() {
 
+
+
     fun getStateDelta(): StateDelta {
         return this.stateDelta?.let {
             val mapper = ObjectMapper()

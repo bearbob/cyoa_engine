@@ -15,10 +15,11 @@ class CustomWebSecurityConfigurerAdapter {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http.csrf().disable()
         http.authorizeHttpRequests()
-            .requestMatchers("/api/v1/page/**").permitAll()
+            .requestMatchers("/**").permitAll()
+            .and().authorizeHttpRequests()
             .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-            .anyRequest().authenticated()
             .and()
             .httpBasic()
         return http.build()
