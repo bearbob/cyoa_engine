@@ -1,10 +1,13 @@
 package net.tripletwenty.coya.utils
 
+import org.slf4j.LoggerFactory
 import kotlin.math.pow
 
 class NumberConverter {
 
     companion object {
+
+        private val logger = LoggerFactory.getLogger(javaClass)
 
         private const val ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         private const val BASE = ALPHABET.length
@@ -37,6 +40,7 @@ class NumberConverter {
         }
 
         fun decode(value: String?): KeyDto? {
+            logger.error("Start decoding key $value")
             if (value.isNullOrEmpty()) return null
             try {
                 var baseTen: Long = 0
@@ -44,18 +48,35 @@ class NumberConverter {
                     baseTen += ALPHABET.indexOf(c) * BASE.toDouble().pow(index).toLong()
                 }
                 val convertedString = baseTen.toString()
+                logger.info("Decoding key, converted string: $convertedString")
 
                 val pageEnd = convertedString[0].digitToInt() + 1
-                val page = convertedString.substring(1, pageEnd).toLong()
+                if (pageEnd > convertedString.length) {
+                    logger.error("Error, parsed page end ($pageEnd) is longer than the actual string (${convertedString.length}")
+                    return null
+                }
+                val page = convertedString.substring(1, pageEnd).let {
+                    logger.info("Decoding key, page: $it")
+                    it.toLong()
+                }
                 val userEnd = convertedString[pageEnd].digitToInt() + pageEnd + 1
-                val user = convertedString.substring(pageEnd + 1, userEnd).toLong()
-                val state = convertedString.substring(userEnd).toLong()
+                if (userEnd > convertedString.length) {
+                    logger.error("Error, parsed user end ($userEnd) is longer than the actual string (${convertedString.length}")
+                    return null
+                }
+                val user = convertedString.substring(pageEnd + 1, userEnd).let {
+                    logger.info("Decoding key, user: $it")
+                    it.toLong()
+                }
+                val state = convertedString.substring(userEnd).let {
+                    logger.info("Decoding key, state: $it")
+                    it.toLong()
+                }
 
                 return KeyDto(page, user, state)
             } catch (ex: Exception) {
-                // TODO("Add logging for error")
-                // return null
-                throw ex
+                logger.error("Failed decoding key $value", ex)
+                return null
             }
         }
     }
