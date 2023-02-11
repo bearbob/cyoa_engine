@@ -1,14 +1,16 @@
 package net.tripletwenty.coya.utils
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import net.tripletwenty.coya.UnitTest
+import net.tripletwenty.coya.utils.NumberConverter.Companion.compressString
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import kotlin.random.Random
 
-class NumberConverterTest {
+class NumberConverterTest: UnitTest() {
 
     @ParameterizedTest
     @CsvSource(
@@ -22,17 +24,82 @@ class NumberConverterTest {
         // When
         val encoded = NumberConverter.encode(key)
         // Then
-        assertThat(encoded, `is`(expectation))
+        assertThat(encoded).isEqualTo(expectation)
     }
 
-    @Test
-    fun `Can convert string to key`() {
-        // Given
-        val value = "2Td"
-        // When
-        val decoded = NumberConverter.decode(value)
-        // Then
-        assertThat(decoded, `is`(KeyDto(1, 1, 1)))
+    @Nested
+    inner class DecodingTests {
+
+        @Test
+        fun `Can convert string to key`() {
+            // Given
+            val value = "2Td"
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isEqualTo(KeyDto(1, 1, 1))
+        }
+
+        @Test
+        fun `Return null if input is null`() {
+            // Given
+            val value = null
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
+        @Test
+        fun `Return null if input is empty`() {
+            // Given
+            val value = ""
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
+        @Test
+        fun `Return null if input is blank`() {
+            // Given
+            val value = "   "
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
+        @Test
+        fun `Return null if input with wrong page length`() {
+            // Given
+            val value = compressString("91110")
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
+        @Test
+        fun `Return null if input with wrong user length`() {
+            // Given
+            val value = compressString("11710")
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
+        @Test
+        fun `Return null if input is malformed`() {
+            // Given
+            val value = "11_10"
+            // When
+            val decoded = NumberConverter.decode(value)
+            // Then
+            assertThat(decoded).isNull()
+        }
+
     }
 
     @RepeatedTest(20)
@@ -47,6 +114,6 @@ class NumberConverterTest {
         val encoded = NumberConverter.encode(key)
         val decoded = NumberConverter.decode(encoded)
         // Then
-        assertThat(decoded, `is`(key))
+        assertThat(decoded).isEqualTo(key)
     }
 }

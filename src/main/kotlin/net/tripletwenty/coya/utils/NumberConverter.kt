@@ -25,7 +25,11 @@ class NumberConverter {
             val startString: String = """
                 ${page.length}$page${user.length}$user$state
             """.trimIndent()
-            var tempVal = startString.toLong()
+            return compressString(startString)
+        }
+
+        internal fun compressString(input: String): String {
+            var tempVal = input.toLong()
             var result = ""
 
             if (tempVal == 0L) return ALPHABET[0].toString()
@@ -33,14 +37,15 @@ class NumberConverter {
             while (tempVal > 0) {
                 val remaining = (tempVal % BASE).toInt()
                 result += ALPHABET[remaining]
-                tempVal /= BASE
+                tempVal /= net.tripletwenty.coya.utils.NumberConverter.Companion.BASE
             }
 
             return result.reversed()
         }
 
-        fun decode(value: String?): KeyDto? {
-            logger.error("Start decoding key $value")
+        fun decode(input: String?): KeyDto? {
+            logger.error("Start decoding key '$input'")
+            val value = input?.trim()
             if (value.isNullOrEmpty()) return null
             try {
                 var baseTen: Long = 0
