@@ -69,7 +69,7 @@ class PageService(
         user.lastActionAt = Instant.now()
         userRepository.save(user)
 
-        val options = getOptions(page, user.id!!, newState)
+        val options = getOptions(page, user.id, newState)
         return PageResponseDto(
             page.content,
             options

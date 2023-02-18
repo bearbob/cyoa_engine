@@ -10,7 +10,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.2.0"
 }
 
 group = "net.tripletwenty"
@@ -35,6 +35,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.5.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("io.mockk:mockk:1.13.4")
 }
 
 tasks.withType<KotlinCompile> {
