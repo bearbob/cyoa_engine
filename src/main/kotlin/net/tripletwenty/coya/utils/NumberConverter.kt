@@ -7,7 +7,7 @@ class NumberConverter {
 
     companion object {
 
-        private val logger = LoggerFactory.getLogger(javaClass)
+        private val logger = LoggerFactory.getLogger(NumberConverter::class.java)
 
         private const val ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         private const val BASE = ALPHABET.length

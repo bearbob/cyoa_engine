@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "navigation_options")
 class NavigationOption(
-    val sourcePage: String,
+    val label: String,
     val targetPage: String,
     val text: String,
     val conditions: String? = null,

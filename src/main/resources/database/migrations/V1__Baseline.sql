@@ -12,30 +12,43 @@ CREATE TABLE pages (
 
 CREATE TABLE page_translations (
     id           serial      PRIMARY KEY,
-    page_id      bigint     NOT NULL,
+    page_label      text        NOT NULL,
     locale       varchar(5)  NOT NULL,
     raw_content  text        NOT NULL,
     created_at   timestamp   NOT NULL,
     created_by   text        NULL,
     modified_at  timestamp   NOT NULL,
     modified_by  text        NULL,
-    UNIQUE (page_id, locale),
-    FOREIGN KEY (page_id)
-          REFERENCES pages (id)
+    UNIQUE (page_label, locale),
+    FOREIGN KEY (page_label)
+          REFERENCES pages (label)
 );
 
 CREATE TABLE navigation_options (
     id              serial      PRIMARY KEY,
-    source_page     text        NOT NULL,
+    label           text        NOT NULL UNIQUE,
     target_page     text        NOT NULL,
     text            text        NOT NULL,
     conditions      text,
     created_at      timestamp   NOT NULL,
     created_by      text        NULL,
     modified_at     timestamp   NOT NULL,
+    modified_by     text        NULL
+);
+
+CREATE TABLE navigation_option_source (
+    id              serial      PRIMARY KEY,
+    option_label    text        NOT NULL,
+    source_page     text        NOT NULL,
+    created_at      timestamp   NOT NULL,
+    created_by      text        NULL,
+    modified_at     timestamp   NOT NULL,
     modified_by     text        NULL,
+    UNIQUE (option_label, source_page),
     FOREIGN KEY (source_page)
-          REFERENCES pages (label)
+          REFERENCES pages (label),
+    FOREIGN KEY (option_label)
+              REFERENCES navigation_options (label)
 );
 -- target_page is not a FK, because the option can be created
 -- before the page exists. But it is still required to give

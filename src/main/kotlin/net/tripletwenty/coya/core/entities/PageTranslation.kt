@@ -12,9 +12,6 @@ import jakarta.persistence.Table
 class PageTranslation(
 
     @Column(nullable = false)
-    val label: String,
-
-    @Column(nullable = false)
     val locale: String,
 
     @Column(name = "raw_content")
@@ -23,6 +20,6 @@ class PageTranslation(
 ) : AuditedEntity() {
 
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "page_id", referencedColumnName = "id")
+    @JoinColumn(name = "page_label", referencedColumnName = "label")
     lateinit var page: Page
 }
