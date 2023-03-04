@@ -28,6 +28,41 @@ VALUES
      	    '25 Gold lost',
      	    'PUBLISHED',
      	    now(), 'bjoern', now()
+     ),
+	 (
+     	    'orphan_page',
+     	    NULL,
+     	    'This is a page that has no links and is not linked to.',
+     	    'PUBLISHED',
+     	    now(), 'bjoern', now()
+     ),
+     (
+     	    'crossroads',
+     	    NULL,
+     	    'There are multiple pages available from here on. One is only available when you have enough gold.',
+     	    'PUBLISHED',
+     	    now(), 'bjoern', now()
+     ),
+     (
+     	    'road_a',
+     	    NULL,
+     	    'Road to a city',
+     	    'PUBLISHED',
+     	    now(), 'bjoern', now()
+     ),
+     (
+     	    'road_b',
+     	    NULL,
+     	    'Road to a castle',
+     	    'PUBLISHED',
+     	    now(), 'bjoern', now()
+     ),
+     (
+     	    'road_c',
+     	    NULL,
+     	    'Road to a tower',
+     	    'PUBLISHED',
+     	    now(), 'bjoern', now()
      );
 
 INSERT INTO public.navigation_options (
@@ -52,6 +87,34 @@ INSERT INTO public.navigation_options (
         'Buy sword',
         NULL,
         now(), 'bjoern', now()
+    ),
+    (
+        'to_xroads',
+        'crossroads',
+        'Follow the road',
+        NULL,
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_a',
+        'road_a',
+        'To the city',
+        NULL,
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_b',
+        'road_b',
+        'To the castle',
+        NULL,
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_c',
+        'road_c',
+        'To the tower',
+        NULL, -- Add a condition that this is only available when you have more than 30 gold
+        now(), 'bjoern', now()
     );
 
 INSERT INTO public.navigation_option_source (
@@ -69,5 +132,30 @@ INSERT INTO public.navigation_option_source (
     (
         'buy',
         'adventure_begins',
+        now(), 'bjoern', now()
+    ),
+    (
+        'to_xroads',
+        'adventure_begins',
+        now(), 'bjoern', now()
+    ),
+    (
+        'to_xroads',
+        'gold_lost',
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_a',
+        'crossroads',
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_b',
+        'crossroads',
+        now(), 'bjoern', now()
+    ),
+    (
+        'follow_b',
+        'crossroads',
         now(), 'bjoern', now()
     );
