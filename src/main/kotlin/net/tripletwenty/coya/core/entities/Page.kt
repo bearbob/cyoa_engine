@@ -21,7 +21,7 @@ class Page(
     val content: String,
 
     @Enumerated(EnumType.STRING)
-    val status: ItemDelta.PageStatus,
+    val status: PageStatus,
 
     ) : AuditedEntity() {
 

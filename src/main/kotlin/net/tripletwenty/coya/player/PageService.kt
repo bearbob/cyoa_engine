@@ -102,22 +102,22 @@ class PageService(
 
         val adaptedItems: MutableList<StateItem> = state.items?.toMutableList()
             ?: mutableListOf()
-        delta.items?.forEach { itemDelta ->
-            applyItemDelta(adaptedItems, itemDelta)
-        }
+        applyItemDelta(adaptedItems, delta.items, state.id ?: -1L)
         adaptedItems.sortBy { it.itemLabel }
 
         val adaptedEvents: MutableSet<String> = state.events?.map {
             it.eventLabel
         }?.toMutableSet()
             ?: mutableSetOf()
-        if (delta.events != null) {
-            adaptedEvents.addAll(delta.events)
+        delta.events?.let {
+            adaptedEvents.addAll(it)
         }
+
         val newItemHash = Hasher.hash(adaptedItems.joinToString { it.toString() })
         val newEventHash = Hasher.hash(adaptedEvents.sorted().joinToString { it })
         val matchingState = stateRepository.findByItemHashAndEventHash(newItemHash, newEventHash)
         if (matchingState != null) {
+            logger.info("State already exists for hash: ${matchingState.id}")
             return matchingState.id!!
         }
         val newState = stateRepository.save(
@@ -134,34 +134,40 @@ class PageService(
         return newState.id!!
     }
 
-    internal fun applyItemDelta(items: MutableList<StateItem>, delta: ItemDelta) {
-        if (!delta.isValid()) {
-            logger.error("Invalid item delta: $delta, skipping")
-            return
-        }
-        items.firstOrNull { it.itemLabel == delta.label } ?.apply {
-            when (delta.mode) {
-                ItemChangeMode.ADD -> this.amount += delta.change
-                ItemChangeMode.REMOVE -> run {
-                    this.amount -= delta.change
-                    if (this.amount <= 0) {
-                        if (this.amount < 0) {
-                            logger.error("New value of ${delta.label} is negative for state")
+    internal fun applyItemDelta(
+        items: MutableList<StateItem>,
+        deltaList: List<ItemDelta>?,
+        stateId: Long,
+    ) {
+        deltaList?.forEach { delta ->
+            if (!delta.isValid()) {
+                logger.error("Invalid item delta: $delta, skipping")
+                return
+            }
+            items.firstOrNull { it.itemLabel == delta.label } ?.apply {
+                when (delta.mode) {
+                    ItemChangeMode.ADD -> this.amount += delta.change
+                    ItemChangeMode.REMOVE -> run {
+                        this.amount -= delta.change
+                        if (this.amount <= 0) {
+                            if (this.amount < 0) {
+                                logger.error("Negative value for $delta from state $stateId")
+                            }
+                            items.remove(this)
                         }
+                    }
+                    ItemChangeMode.SET -> if (delta.change != 0) {
+                        this.amount = delta.change
+                    } else {
                         items.remove(this)
                     }
                 }
-                ItemChangeMode.SET -> if (delta.change != 0) {
-                    this.amount = delta.change
-                } else {
-                    items.remove(this)
+            } ?: when (delta.mode) {
+                ItemChangeMode.ADD, ItemChangeMode.SET -> if (delta.change != 0) {
+                    items.add(StateItem(0L, delta.label, delta.change))
                 }
+                ItemChangeMode.REMOVE -> logger.error("Tried to apply $delta, but not present for state $stateId")
             }
-        } ?: when (delta.mode) {
-            ItemChangeMode.ADD, ItemChangeMode.SET -> if (delta.change != 0) {
-                items.add(StateItem(0L, delta.label, delta.change))
-            }
-            ItemChangeMode.REMOVE -> logger.error("Tried to remove from ${delta.label}, but not present for state ${state.id}")
         }
     }
 }
