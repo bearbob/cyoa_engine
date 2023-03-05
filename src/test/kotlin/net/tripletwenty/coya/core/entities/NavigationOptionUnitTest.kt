@@ -4,6 +4,8 @@ import net.tripletwenty.coya.UnitTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class NavigationOptionUnitTest: UnitTest() {
 
@@ -26,11 +28,30 @@ class NavigationOptionUnitTest: UnitTest() {
         @Nested
         inner class ItemAmountTests {
 
-            @Test
-            fun `Is available when item has expected value` () {
+            @ParameterizedTest
+            @ValueSource(strings = [
+                "item == 4",
+                " item == 4 ",
+                "item is 4",
+                "item != 3",
+                "item < 5",
+                "item <= 5",
+                "item <= 4",
+                "item >= 4",
+                "item > 3",
+                "item >= 3",
+                "unknown < 3",
+                "unknown == 0",
+                "unknown != 3",
+                "unknown >= 0",
+                "unknown <= 0",
+                "unknown != 3 && item == 4",
+                "item == 4 && unknown != 3"
+            ])
+            fun `Is available when item expression is true` (condition: String) {
                 // Given
                 val option = getTestNavigationOption(
-                    conditions = "item == 4"
+                    conditions = condition
                 )
                 val state = getTestState(
                     items = listOf(StateItem(0L, "item", 4))
@@ -41,8 +62,27 @@ class NavigationOptionUnitTest: UnitTest() {
                 assertThat(result).isTrue
             }
 
-            @Test
-            fun `Is not available when item has different value` () {
+            @ParameterizedTest
+            @ValueSource(strings = [
+                "item == 5",
+                " item == 3 ",
+                "item is 2",
+                "item != 4",
+                "item < 4",
+                "item < 3",
+                "item <= 3",
+                "item <= 0",
+                "item >= 5",
+                "item > 4",
+                "unknown > 0",
+                "unknown == 1",
+                "unknown != 0",
+                "unknown >= 1",
+                "unknown < 0",
+                "unknown != 0 && item == 6",
+                "item == 6 && unknown != 0"
+            ])
+            fun `Is not available when item expression is false` () {
                 // Given
                 val option = getTestNavigationOption(
                     conditions = "item == 5"
