@@ -14,7 +14,7 @@ interface NavigationOptionRepository : CrudRepository<NavigationOption, Long> {
     @Transactional
     @Modifying
     @Query(
-        value ="""
+        value = """
             INSERT INTO navigation_option_source (
                 option_label,
                 source_page,

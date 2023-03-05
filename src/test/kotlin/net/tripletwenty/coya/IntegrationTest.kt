@@ -71,7 +71,7 @@ abstract class IntegrationTest {
         text: String = "Option",
         conditions: String? = null
     ): NavigationOption {
-        val label = sourcePage+targetPage
+        val label = sourcePage + targetPage
         val navOption = navigationOptionRepository.save(
             NavigationOption(
                 label,

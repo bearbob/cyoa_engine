@@ -54,7 +54,7 @@ data class ItemDelta(
         if (mode != ItemChangeMode.SET && change <= 0) return false
         return true
     }
-    
+
     override fun toString(): String {
         return "[$label,${mode.name},$change]"
     }
