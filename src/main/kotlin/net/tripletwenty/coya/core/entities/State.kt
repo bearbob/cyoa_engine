@@ -15,11 +15,11 @@ class State(
 
     @OneToMany
     @JoinColumn(name = "state_id", referencedColumnName = "id")
-    val items: List<StateItem>? = null
+    var items: List<StateItem>? = null
 
     @OneToMany
     @JoinColumn(name = "state_id", referencedColumnName = "id")
-    val events: List<StateEvent>? = null
+    var events: List<StateEvent>? = null
 }
 
 @Entity
