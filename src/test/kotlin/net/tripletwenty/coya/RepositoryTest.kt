@@ -14,4 +14,5 @@ import org.springframework.test.context.jdbc.Sql
 )
 // https://www.arhohuttunen.com/spring-boot-datajpatest/
 @Sql(scripts = ["file:src/test/resources/sql/sample_content.sql"])
+@Sql(scripts = ["file:src/test/resources/sql/clean_data.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 abstract class RepositoryTest

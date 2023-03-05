@@ -155,7 +155,7 @@ INSERT INTO public.navigation_option_source (
         now(), 'bjoern', now()
     ),
     (
-        'follow_b',
+        'follow_c',
         'crossroads',
         now(), 'bjoern', now()
     );
