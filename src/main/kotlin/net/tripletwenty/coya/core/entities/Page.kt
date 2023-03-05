@@ -1,5 +1,6 @@
 package net.tripletwenty.coya.core.entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.persistence.Column
@@ -46,12 +47,14 @@ data class ItemDelta(
     @JsonProperty("mode")
     val mode: ItemChangeMode
 ) {
+
+    @JsonIgnore
     fun isValid(): Boolean {
         if (change < 0) return false
         if (mode != ItemChangeMode.SET && change <= 0) return false
         return true
     }
-
+    
     override fun toString(): String {
         return "[$label,${mode.name},$change]"
     }

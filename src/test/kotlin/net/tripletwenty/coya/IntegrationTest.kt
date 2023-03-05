@@ -20,7 +20,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.jdbc.Sql
 
 @SpringBootTest(classes = [CoyaApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = ["file:src/test/resources/sql/clean_data.sql"])
+@Sql(scripts = ["/sql/clean_data.sql"])
 abstract class IntegrationTest {
 
     @LocalServerPort
@@ -71,14 +71,17 @@ abstract class IntegrationTest {
         text: String = "Option",
         conditions: String? = null
     ): NavigationOption {
-        return navigationOptionRepository.save(
+        val label = sourcePage+targetPage
+        val navOption = navigationOptionRepository.save(
             NavigationOption(
-                sourcePage,
+                label,
                 targetPage,
                 text,
                 conditions
             )
         )
+        navigationOptionRepository.insertSource(label, sourcePage)
+        return navOption
     }
 
     internal fun createItem(

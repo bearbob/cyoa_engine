@@ -9,7 +9,7 @@ class NavigationOption(
     val label: String,
     val targetPage: String,
     val text: String,
-    private val conditions: String? = null
+    val conditions: String? = null
 ) : AuditedEntity() {
 
     private fun getConditions(): List<Condition> {

@@ -1,6 +1,8 @@
 package net.tripletwenty.coya.core.repositories
 
+import jakarta.transaction.Transactional
 import net.tripletwenty.coya.core.entities.NavigationOption
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.*
@@ -8,6 +10,26 @@ import java.util.*
 interface NavigationOptionRepository : CrudRepository<NavigationOption, Long> {
 
     override fun findById(id: Long): Optional<NavigationOption>
+
+    @Transactional
+    @Modifying
+    @Query(
+        value ="""
+            INSERT INTO navigation_option_source (
+                option_label,
+                source_page,
+                created_at,
+                created_by,
+                modified_at
+            ) VALUES (
+                :optionLabel,
+                :sourcePage,
+                now(), 'jpa', now()
+            )
+        """,
+        nativeQuery = true
+    )
+    fun insertSource(optionLabel: String, sourcePage: String)
 
     @Query(
         value = """

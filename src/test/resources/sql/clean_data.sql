@@ -12,10 +12,11 @@ DELETE FROM events;
 ALTER SEQUENCE events_id_seq RESTART WITH 1;
 DELETE FROM items;
 ALTER SEQUENCE items_id_seq RESTART WITH 1;
-DELETE FROM navigation_options;
-ALTER SEQUENCE navigation_options_id_seq RESTART WITH 1;
+-- navigation_option_source needs to be cleaned before navigation_options
 DELETE FROM navigation_option_source;
 ALTER SEQUENCE navigation_option_source_id_seq RESTART WITH 1;
+DELETE FROM navigation_options;
+ALTER SEQUENCE navigation_options_id_seq RESTART WITH 1;
 DELETE FROM page_translations;
 ALTER SEQUENCE page_translations_id_seq RESTART WITH 1;
 DELETE FROM pages;
