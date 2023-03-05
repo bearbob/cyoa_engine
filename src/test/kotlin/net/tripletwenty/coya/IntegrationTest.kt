@@ -69,28 +69,28 @@ abstract class IntegrationTest {
         sourcePage: String,
         targetPage: String,
         text: String = "Option",
-        conditions: String? = null,
+        conditions: String? = null
     ): NavigationOption {
         return navigationOptionRepository.save(
             NavigationOption(
                 sourcePage,
                 targetPage,
                 text,
-                conditions,
+                conditions
             )
         )
     }
 
     internal fun createItem(
         label: String = "item",
-        comment: String = "",
+        comment: String = ""
     ): Item {
         return itemRepository.save(Item(label, comment))
     }
 
     internal fun createEvent(
         label: String = "event",
-        comment: String = "",
+        comment: String = ""
     ): Event {
         return eventRepository.save(Event(label, comment))
     }

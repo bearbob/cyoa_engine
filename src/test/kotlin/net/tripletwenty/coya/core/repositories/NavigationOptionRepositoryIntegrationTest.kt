@@ -7,13 +7,13 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 
-class NavigationOptionRepositoryIntegrationTest: RepositoryTest() {
+class NavigationOptionRepositoryIntegrationTest : RepositoryTest() {
 
     @Autowired
     private lateinit var navigationOptionRepository: NavigationOptionRepository
 
     @Test
-    fun `Return empty list if no option is linked to the given page` () {
+    fun `Return empty list if no option is linked to the given page`() {
         // Given
         val sourcePage = "orphan_page"
         // When
@@ -27,7 +27,7 @@ class NavigationOptionRepositoryIntegrationTest: RepositoryTest() {
         "default,1",
         "crossroads,3"
     )
-    fun `If page has options linked, these are returned` (sourcePage: String, expectedResults: Int) {
+    fun `If page has options linked, these are returned`(sourcePage: String, expectedResults: Int) {
         // Given
         // When
         val results = navigationOptionRepository.findBySourcePage(sourcePage)
@@ -35,5 +35,4 @@ class NavigationOptionRepositoryIntegrationTest: RepositoryTest() {
         assertThat(results).isNotEmpty
         assertThat(results.size).isEqualTo(expectedResults)
     }
-
 }

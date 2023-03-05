@@ -9,7 +9,7 @@ class NavigationOption(
     val label: String,
     val targetPage: String,
     val text: String,
-    private val conditions: String? = null,
+    private val conditions: String? = null
 ) : AuditedEntity() {
 
     private fun getConditions(): List<Condition> {
@@ -20,7 +20,7 @@ class NavigationOption(
                     Condition(
                         variable = conditionParts[0],
                         type = Condition.Type.EVENT,
-                        comparator = if (c.contains(" not ")){
+                        comparator = if (c.contains(" not ")) {
                             Condition.Comparator.NEQ
                         } else {
                             Condition.Comparator.EQUAL
@@ -56,7 +56,7 @@ class NavigationOption(
     }
 
     private fun isConditionSatisfied(condition: Condition, state: State): Boolean {
-        return if ( condition.type == Condition.Type.EVENT) {
+        return if (condition.type == Condition.Type.EVENT) {
             if (condition.comparator == Condition.Comparator.EQUAL) {
                 state.events?.any { it.eventLabel == condition.variable } ?: false
             } else {
@@ -80,7 +80,7 @@ data class Condition(
     val variable: String,
     val value: Int = -1,
     val comparator: Comparator,
-    val type: Type,
+    val type: Type
 ) {
     enum class Type {
         EVENT,

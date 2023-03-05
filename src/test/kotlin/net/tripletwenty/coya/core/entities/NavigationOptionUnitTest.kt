@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class NavigationOptionUnitTest: UnitTest() {
+class NavigationOptionUnitTest : UnitTest() {
 
     @Nested
     inner class AvailabilityTest {
 
         @Test
-        fun `Is available when no conditions given` () {
+        fun `Is available when no conditions given`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = null
@@ -29,26 +29,28 @@ class NavigationOptionUnitTest: UnitTest() {
         inner class ItemAmountTests {
 
             @ParameterizedTest
-            @ValueSource(strings = [
-                "item == 4",
-                " item == 4 ",
-                "item is 4",
-                "item != 3",
-                "item < 5",
-                "item <= 5",
-                "item <= 4",
-                "item >= 4",
-                "item > 3",
-                "item >= 3",
-                "unknown < 3",
-                "unknown == 0",
-                "unknown != 3",
-                "unknown >= 0",
-                "unknown <= 0",
-                "unknown != 3 && item == 4",
-                "item == 4 && unknown != 3"
-            ])
-            fun `Is available when item expression is true` (condition: String) {
+            @ValueSource(
+                strings = [
+                    "item == 4",
+                    " item == 4 ",
+                    "item is 4",
+                    "item != 3",
+                    "item < 5",
+                    "item <= 5",
+                    "item <= 4",
+                    "item >= 4",
+                    "item > 3",
+                    "item >= 3",
+                    "unknown < 3",
+                    "unknown == 0",
+                    "unknown != 3",
+                    "unknown >= 0",
+                    "unknown <= 0",
+                    "unknown != 3 && item == 4",
+                    "item == 4 && unknown != 3"
+                ]
+            )
+            fun `Is available when item expression is true`(condition: String) {
                 // Given
                 val option = getTestNavigationOption(
                     conditions = condition
@@ -63,26 +65,28 @@ class NavigationOptionUnitTest: UnitTest() {
             }
 
             @ParameterizedTest
-            @ValueSource(strings = [
-                "item == 5",
-                " item == 3 ",
-                "item is 2",
-                "item != 4",
-                "item < 4",
-                "item < 3",
-                "item <= 3",
-                "item <= 0",
-                "item >= 5",
-                "item > 4",
-                "unknown > 0",
-                "unknown == 1",
-                "unknown != 0",
-                "unknown >= 1",
-                "unknown < 0",
-                "unknown != 0 && item == 6",
-                "item == 6 && unknown != 0"
-            ])
-            fun `Is not available when item expression is false` () {
+            @ValueSource(
+                strings = [
+                    "item == 5",
+                    " item == 3 ",
+                    "item is 2",
+                    "item != 4",
+                    "item < 4",
+                    "item < 3",
+                    "item <= 3",
+                    "item <= 0",
+                    "item >= 5",
+                    "item > 4",
+                    "unknown > 0",
+                    "unknown == 1",
+                    "unknown != 0",
+                    "unknown >= 1",
+                    "unknown < 0",
+                    "unknown != 0 && item == 6",
+                    "item == 6 && unknown != 0"
+                ]
+            )
+            fun `Is not available when item expression is false`() {
                 // Given
                 val option = getTestNavigationOption(
                     conditions = "item == 5"
@@ -95,11 +99,10 @@ class NavigationOptionUnitTest: UnitTest() {
                 // Then
                 assertThat(result).isFalse
             }
-
         }
 
         @Test
-        fun `Is available when event has happened` () {
+        fun `Is available when event has happened`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = "event happened"
@@ -114,7 +117,7 @@ class NavigationOptionUnitTest: UnitTest() {
         }
 
         @Test
-        fun `Is available when event is expected to not have happened` () {
+        fun `Is available when event is expected to not have happened`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = "b not happened"
@@ -129,7 +132,7 @@ class NavigationOptionUnitTest: UnitTest() {
         }
 
         @Test
-        fun `Is not available when event should not have happened` () {
+        fun `Is not available when event should not have happened`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = "event not happened"
@@ -144,7 +147,7 @@ class NavigationOptionUnitTest: UnitTest() {
         }
 
         @Test
-        fun `Is not available when event have not happened` () {
+        fun `Is not available when event have not happened`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = "a happened && b happened"
@@ -159,7 +162,7 @@ class NavigationOptionUnitTest: UnitTest() {
         }
 
         @Test
-        fun `Is not available when one event didn't happen` () {
+        fun `Is not available when one event didn't happen`() {
             // Given
             val option = getTestNavigationOption(
                 conditions = "event happened && b happened"
@@ -172,7 +175,5 @@ class NavigationOptionUnitTest: UnitTest() {
             // Then
             assertThat(result).isFalse
         }
-
     }
-
 }

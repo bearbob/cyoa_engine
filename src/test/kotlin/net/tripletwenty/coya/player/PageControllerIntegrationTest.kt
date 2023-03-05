@@ -28,7 +28,9 @@ class PageControllerIntegrationTest : IntegrationTest() {
         // When
         val response: ResponseEntity<String> = restTemplate.exchange(
             createURLWithPort("/api/v1/page/read"),
-            HttpMethod.GET, entity, String::class.java
+            HttpMethod.GET,
+            entity,
+            String::class.java
         )
         // Then
         val expected = """
@@ -54,7 +56,10 @@ class PageControllerIntegrationTest : IntegrationTest() {
         // When
         val response: ResponseEntity<String> = restTemplate.exchange(
             createURLWithPort("/api/v1/page/read?page={key}"),
-            HttpMethod.GET, entity, String::class.java, params
+            HttpMethod.GET,
+            entity,
+            String::class.java,
+            params
         )
         // Then
         val expected = """

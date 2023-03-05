@@ -33,7 +33,7 @@ class PageService(
     val stateRepository: StateRepository,
     val stateItemRepository: StateItemRepository,
     val stateEventRepository: StateEventRepository,
-    val historyRepository: HistoryRepository,
+    val historyRepository: HistoryRepository
 ) {
 
     companion object {
@@ -137,14 +137,14 @@ class PageService(
     internal fun applyItemDelta(
         items: MutableList<StateItem>,
         deltaList: List<ItemDelta>?,
-        stateId: Long,
+        stateId: Long
     ) {
         deltaList?.forEach { delta ->
             if (!delta.isValid()) {
                 logger.error("Invalid item delta: $delta, skipping")
                 return
             }
-            items.firstOrNull { it.itemLabel == delta.label } ?.apply {
+            items.firstOrNull { it.itemLabel == delta.label }?.apply {
                 when (delta.mode) {
                     ItemChangeMode.ADD -> this.amount += delta.change
                     ItemChangeMode.REMOVE -> run {

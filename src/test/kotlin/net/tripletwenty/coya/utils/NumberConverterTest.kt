@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import kotlin.random.Random
 
-class NumberConverterTest: UnitTest() {
+class NumberConverterTest : UnitTest() {
 
     @ParameterizedTest
     @CsvSource(
@@ -99,7 +99,6 @@ class NumberConverterTest: UnitTest() {
             // Then
             assertThat(decoded).isNull()
         }
-
     }
 
     @RepeatedTest(20)
@@ -108,7 +107,7 @@ class NumberConverterTest: UnitTest() {
         val key = KeyDto(
             Random.nextLong(0, 10000),
             Random.nextLong(0, 10000),
-            Random.nextLong(0, 10000),
+            Random.nextLong(0, 10000)
         )
         // When
         val encoded = NumberConverter.encode(key)

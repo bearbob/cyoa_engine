@@ -16,7 +16,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class PageServiceUnitTest: UnitTest() {
+class PageServiceUnitTest : UnitTest() {
 
     private val pageRepository: PageRepository = mockk()
     private val navigationOptionRepository: NavigationOptionRepository = mockk()
@@ -33,15 +33,14 @@ class PageServiceUnitTest: UnitTest() {
         stateRepository = stateRepository,
         stateItemRepository = stateItemRepository,
         stateEventRepository = stateEventRepository,
-        historyRepository = historyRepository,
+        historyRepository = historyRepository
     )
-
 
     @Nested
     inner class FetchOptionsTests {
 
         @Test
-        fun `Returns empty list if no options available` () {
+        fun `Returns empty list if no options available`() {
             // Given
             val page = Page(
                 "test",
@@ -62,25 +61,23 @@ class PageServiceUnitTest: UnitTest() {
         }
 
         @Test
-        fun `Returns list of all options available for page` () {
+        fun `Returns list of all options available for page`() {
             TODO()
         }
 
         @Test
-        fun `Option contains key of target page` () {
+        fun `Option contains key of target page`() {
             TODO()
         }
 
         @Test
-        fun `Don't list option where condition is not met` () {
+        fun `Don't list option where condition is not met`() {
             TODO()
         }
 
         @Test
-        fun `List option where condition is met` () {
+        fun `List option where condition is met`() {
             TODO()
         }
-
     }
-
 }

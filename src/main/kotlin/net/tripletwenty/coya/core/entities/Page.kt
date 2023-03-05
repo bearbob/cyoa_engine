@@ -21,9 +21,9 @@ class Page(
     val content: String,
 
     @Enumerated(EnumType.STRING)
-    val status: PageStatus,
+    val status: PageStatus
 
-    ) : AuditedEntity() {
+) : AuditedEntity() {
 
     fun getStateDelta(): StateDelta {
         return this.stateDelta?.let {
@@ -35,7 +35,7 @@ class Page(
 
 data class StateDelta(
     val items: List<ItemDelta>? = null,
-    val events: List<String>? = null,
+    val events: List<String>? = null
 )
 
 data class ItemDelta(
@@ -44,7 +44,7 @@ data class ItemDelta(
     @JsonProperty("change")
     val change: Int,
     @JsonProperty("mode")
-    val mode: ItemChangeMode,
+    val mode: ItemChangeMode
 ) {
     fun isValid(): Boolean {
         if (change < 0) return false

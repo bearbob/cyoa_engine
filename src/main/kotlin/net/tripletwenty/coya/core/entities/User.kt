@@ -7,5 +7,5 @@ import java.time.Instant
 @Entity
 @Table(name = "users")
 class User(
-    var lastActionAt: Instant = java.time.Instant.now(),
+    var lastActionAt: Instant = java.time.Instant.now()
 ) : AuditedEntity()

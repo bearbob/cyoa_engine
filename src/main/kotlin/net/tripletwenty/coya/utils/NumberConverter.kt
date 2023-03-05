@@ -90,5 +90,5 @@ class NumberConverter {
 data class KeyDto(
     val page: Long,
     val user: Long,
-    val state: Long,
+    val state: Long
 )

@@ -14,24 +14,23 @@ abstract class UnitTest {
         label: String = "test",
         targetPage: String = "test",
         text: String = "test",
-        conditions: String? = null,
+        conditions: String? = null
     ): NavigationOption {
         return NavigationOption(
             label = label,
             targetPage = targetPage,
             text = text,
-            conditions = conditions,
+            conditions = conditions
         )
     }
 
     fun getTestState(
         items: List<StateItem>? = null,
-        events: List<StateEvent>? = null,
+        events: List<StateEvent>? = null
     ): State {
         return State("", "").apply {
             this.items = items
             this.events = events
         }
     }
-
 }
