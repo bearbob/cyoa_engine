@@ -28,7 +28,7 @@ VALUES
      );
 
 INSERT INTO public.navigation_options (
-    source_page,
+    label,
     target_page,
     text,
     conditions,
@@ -37,9 +37,23 @@ INSERT INTO public.navigation_options (
     created_at
 ) VALUES
     (
-        'default',
+        'nav_begin',
         'adventure_begins',
         'Das Abenteuer beginnt',
         NULL,
         now(), 'bjoern', now()
-    )
+    );
+
+INSERT INTO public.navigation_option_source (
+    option_label,
+    source_page,
+    created_at,
+    created_by,
+    modified_at
+) VALUES
+    (
+        'nav_begin',
+        'default',
+        now(), 'bjoern', now()
+    );
+

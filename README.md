@@ -12,12 +12,16 @@ Users can read and play the story by using individually created page keys, that 
 
 ### Built With
 
-* Spring Boot
-* Docker
-* Postgres
-* Kotlin
+* [Spring Boot](https://spring.io/)
+* [Docker](https://www.docker.com/)
+* [Postgres](https://www.postgresql.org/)
+* [Kotlin](https://kotlinlang.org/)
+* [JDK17](https://adoptium.net/de/temurin/releases/)
 
 ## Getting Started
+
+To get an introduction into the data model and how to build your own stories, 
+take a look at the [documentation](/docs/README.md).
 
 ### Building And Running
 
@@ -37,7 +41,7 @@ docker-compose up -d
 
 ### Linter
 This project uses [ktlint](https://github.com/pinterest/ktlint) for consistent formatting.
-You can automatically fix most format errors.
+You can automatically fix most format errors using:
 ```bash
 ./gradlew ktlintFormat
 ```
@@ -65,7 +69,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-TripleTwenty 
+<b>TripleTwenty</b> 
 - Twitter [@tripletwenty_](https://twitter.com/tripletwenty_)
 - Mastodon [@tripletwenty@det.social](https://det.social/web/@tripletwenty)
 - Website [tripletwenty.net](https://tripletwenty.net)
