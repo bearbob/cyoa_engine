@@ -33,9 +33,9 @@ jobs:
         with:
           arguments: build
       - name: Upload test results
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: home/runner/work/coya_engine/coya_engine/build/reports/tests/test/
-      - name: Stop Docker
-        run: docker-compose down
+          
