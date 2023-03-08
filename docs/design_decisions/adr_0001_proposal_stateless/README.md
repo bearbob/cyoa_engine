@@ -1,0 +1,2 @@
+This folder contains notes for the design decision to make the application stateless from the perspective of a user.
+Each page will be served with a state, which holds the current items and events the user has acquired/seen.
