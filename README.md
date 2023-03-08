@@ -21,6 +21,8 @@ Users can read and play the story by using individually created page keys, that 
 
 ### Building And Running
 
+Requires JDK17 to be installed.
+
 ```bash
 docker-compose up -d
 ./gradlew bootRun
