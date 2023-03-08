@@ -16,7 +16,7 @@ abstract class AuditedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    var id: Long? = null
 
     @CreatedDate
     val createdAt: Instant = Instant.now()

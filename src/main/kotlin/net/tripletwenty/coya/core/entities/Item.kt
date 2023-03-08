@@ -7,5 +7,5 @@ import jakarta.persistence.Table
 @Table(name = "items")
 class Item(
     val label: String,
-    val comment: String,
+    val comment: String
 ) : AuditedEntity()

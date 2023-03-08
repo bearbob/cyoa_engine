@@ -14,7 +14,7 @@ import java.time.Instant
 class History(
     val userId: Long,
     val pageId: Long,
-    val stateId: Long,
+    val stateId: Long
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
