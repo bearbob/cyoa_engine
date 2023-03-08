@@ -1,4 +1,4 @@
-# coya_engine
+# cyoa_engine
 
 ## About The Project
 
@@ -24,7 +24,7 @@ docker-compose up -d
 #### Rebuild Database
 ```bash
 docker-compose down
-docker volume rm coya_engine_db
+docker volume rm cyoa_engine_db
 docker-compose up -d
 ```
 
@@ -62,15 +62,3 @@ TripleTwenty
 - Twitter [@tripletwenty_](https://twitter.com/tripletwenty_)
 - Mastodon [@tripletwenty@det.social](https://det.social/web/@tripletwenty)
 - Website [tripletwenty.net](https://tripletwenty.net)
-
-Project Link: [https://github.com/bearbob/coya_engine](https://github.com/bearbob/coya_engine)
-
-## Notes
-
-### I Own My Mistakes
-
-The name was supposed to be the shorty for "Choose your own adventure".
-Coya.
-I used this as a tag for these projects for years before I realized my mistake.
-Since it is already names this way, I won't change it anymore.
-But rest assured that I am shamefully aware.

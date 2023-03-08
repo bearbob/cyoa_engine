@@ -1,5 +1,5 @@
 spring:
-  name: CoyaEngine
+  name: CyoaEngine
   datasource:
     url: "jdbc:postgresql://localhost:5432/postgres"
     driverClassName: org.postgresql.Driver
