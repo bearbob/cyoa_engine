@@ -1,6 +1,11 @@
-# coya_engine
+<p align="center">
+<img src="https://user-images.githubusercontent.com/7290445/223841570-4994b5e0-facd-4127-856d-dba4f13bc386.png#gh-light-mode-only">
+<img src="https://user-images.githubusercontent.com/7290445/223841566-35776e35-d6b0-4f09-b015-c92255250ec8.png#gh-dark-mode-only">
+</p>
 
-## About The Project
+---
+
+# CYOA Engine
 
 This service provides the infrastructure for [Choose Your Own Adventure](https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure)-style games.
 Users can read and play the story by using individually created page keys, that render the content.
