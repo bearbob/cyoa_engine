@@ -10,16 +10,16 @@ import jakarta.persistence.Table
 @Table(name = "states")
 class State(
     val eventHash: String? = null,
-    val itemHash: String? = null,
+    val itemHash: String? = null
 ) : AuditedEntity() {
 
     @OneToMany
     @JoinColumn(name = "state_id", referencedColumnName = "id")
-    val items: List<StateItem>? = null
+    var items: List<StateItem>? = null
 
     @OneToMany
     @JoinColumn(name = "state_id", referencedColumnName = "id")
-    val events: List<StateEvent>? = null
+    var events: List<StateEvent>? = null
 }
 
 @Entity
@@ -28,7 +28,7 @@ class StateItem(
     @Column(name = "state_id")
     val stateId: Long,
     val itemLabel: String,
-    var amount: Int,
+    var amount: Int
 ) : AuditedEntity() {
     override fun toString(): String {
         return "[$itemLabel;$amount]"
@@ -40,5 +40,5 @@ class StateItem(
 class StateEvent(
     @Column(name = "state_id")
     val stateId: Long,
-    val eventLabel: String,
+    val eventLabel: String
 ) : AuditedEntity()

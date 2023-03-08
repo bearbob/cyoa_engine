@@ -15,7 +15,7 @@ class PageTranslation(
     val locale: String,
 
     @Column(name = "raw_content")
-    val content: String,
+    val content: String
 
 ) : AuditedEntity() {
 
