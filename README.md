@@ -7,7 +7,7 @@
 
 # CYOA Engine
 
-This service provides the infrastructure for [Choose Your Own Adventure](https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure)-style games.
+This service provides a REST API for [Choose Your Own Adventure](https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure)-style games.
 Users can read and play the story by using individually created page keys, that render the content.
 
 ### Built With
@@ -31,6 +31,8 @@ Requires JDK17 to be installed.
 docker-compose up -d
 ./gradlew bootRun
 ```
+
+Open `localhost:8080/api/v1/page/read` to start the game.
 
 #### Rebuild Database
 ```bash
