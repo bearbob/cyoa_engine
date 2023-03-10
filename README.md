@@ -32,7 +32,11 @@ docker-compose up -d
 ./gradlew bootRun
 ```
 
-Open `localhost:8080/api/v1/page/read` to start the game.
+Open `localhost:8080/api/v1/page/read` to start the game. 
+Each navigation option will return a key, that you can use to navigate to the next page.
+```
+http://localhost:8080/api/v1/page/read?page=<KEY>
+```
 
 #### Rebuild Database
 ```bash
