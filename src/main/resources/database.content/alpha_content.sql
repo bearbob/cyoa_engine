@@ -34,7 +34,7 @@ INSERT INTO public.navigation_options (
     conditions,
     created_at,
     created_by,
-    created_at
+    modified_at
 ) VALUES
     (
         'nav_begin',
