@@ -1,4 +1,5 @@
 version: '3.8'
+name: cyoa_engine
 services:
   db:
     image: postgres:14.1-alpine
