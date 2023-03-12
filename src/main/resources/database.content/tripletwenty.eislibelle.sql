@@ -152,7 +152,6 @@ VALUES (
 INSERT INTO public.navigation_option_source (option_label, source_page) VALUES
 ('go_to_sleep_nav', 'camp_for_today'), ('casino_nav', 'camp_for_today');
 
-
 ----------
 
 INSERT INTO public.pages ( "label", state_delta, raw_content )
