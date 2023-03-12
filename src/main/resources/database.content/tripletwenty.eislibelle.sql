@@ -32,7 +32,14 @@ VALUES (
 INSERT INTO public.navigation_option_source (option_label, source_page) VALUES
 ('reason_gold_nav', 'default'), ('reason_honour_nav', 'default'), ('reason_adventure_nav', 'default');
 
+
 ----------
+
+INSERT INTO public.items (label, comment) VALUES ('gold', 'Goldene Münzen');
+INSERT INTO public.events (label, comment) VALUES
+('reason_gold_event', 'Du bist durch Gold motiviert.'),
+('reason_honour_event', 'Du bist durch eine alte Schuld motiviert.'),
+('reason_adventure_event', 'Du bist durch Abenteuerlust motiviert.');
 
 INSERT INTO public.pages ( "label", state_delta, raw_content )
 VALUES (
@@ -124,8 +131,27 @@ VALUES (
 	'Ihr habt noch etwas Feuerholz und ein paar Kohlen. Genug, um ein kleines Lagerfeuer zu errichten. '
 	'Wenn die beiden Forscher richtig liegen, solltet ihr den Eingang des Grabs morgen erreichen. '
 	'Das heißt, eure Vorräte werden knapp, würden aber noch für den Heimweg ausreichen. '
+	'Nachdem alle Zelte aufgebaut sind, das Feuer brennt und ihr gegessen habt, gehen die anderen schlafen. '
+	'Nur Pakrazz und Mirazz bleiben für die erste Wache und haben bereits ihre Würfelbecher gezückt. '
+	'Heute werden wohl noch ein paar Münzen den Besitzer wechseln...'
 );
--- TODO: Optionen. Die Zwerge wollen ein Glücksspiel spielen, oder früh ins Bett
+
+INSERT INTO public.navigation_options (label, target_page, text, conditions)
+VALUES (
+        'go_to_sleep_nav',
+        'first_night_sleep',
+        'Geh auch schlafen',
+        NULL
+    ),(
+        'casino_nav',
+        'challenge_dwarfs',
+        'Eine Runde Glücksspiel kann sicher nicht schaden...',
+        NULL
+    );
+
+INSERT INTO public.navigation_option_source (option_label, source_page) VALUES
+('go_to_sleep_nav', 'camp_for_today'), ('casino_nav', 'camp_for_today');
+
 
 ----------
 
