@@ -44,7 +44,7 @@ INSERT INTO public.events (label, comment) VALUES
 INSERT INTO public.pages ( "label", state_delta, raw_content )
 VALUES (
     'reason_gold',
-	'{"items": [{"label": "gold", "change": 50, "mode":"ADD"}], "events": ["reason_gold_event"]}',
+	'{"items": [{"label": "gold", "change": 50, "mode":"SET"}], "events": ["reason_gold_event"]}',
 	'Achja, da war die gigantische Belohnung. Und die Anzahlung war auch schon einiges wert. '
 	'Leider warst du schon immer sehr schlecht darin, Gold auszuschlagen. Warum muss auch nur alles so teuer sein? '
 	'Der Deal ist relativ simpel - Du hilfst den beiden Forschern Selma und Elias ein altes Grab zu finden und sie bezahlen dich dafür. '
@@ -53,7 +53,7 @@ VALUES (
 ),
 (
     'reason_honour',
-	'{"events": ["reason_honour_event"]}',
+	'{"items": [{"label": "gold", "change": 5, "mode":"SET"}], "events": ["reason_honour_event"]}',
 	'Vermutlich würdest du jetzt in irgendeiner Taverne an einem warmen Feuer sitzen, wärst du der Forscherin Selma nicht etwas '
 	'schuldig. Ihr sprecht nicht darüber, was passiert ist, aber du konntest ihre Anfrage nicht ablehnen. '
 	'Sie sucht mit ihrem Freund Elias nach einem vergessenen Grab. Sobald ihr es erreicht habt, gilt eure Schuld als '
@@ -61,7 +61,7 @@ VALUES (
 ),
 (
     'reason_adventure',
-	'{"events": ["reason_adventure_event"]}',
+	'{"items": [{"label": "gold", "change": 5, "mode":"SET"}], "events": ["reason_adventure_event"]}',
 	'Du warst noch nie jemand, der dem Ruf des Abenteuers widerstehen kann. '
 	'Als dich die beiden Forscher Selma und Elias angesprochen haben, um ein verschollenes Grab zu finden, '
 	'wusstest du sofort, dass hier etwas großes auf dich wartet. '
@@ -151,6 +151,48 @@ VALUES (
 
 INSERT INTO public.navigation_option_source (option_label, source_page) VALUES
 ('go_to_sleep_nav', 'camp_for_today'), ('casino_nav', 'camp_for_today');
+
+----------
+
+INSERT INTO public.pages ( "label", state_delta, raw_content )
+VALUES (
+    'challenge_dwarfs',
+	null,
+	'Zu einem kleinen Spiel sagst du nicht nein. Die beiden Zwerge sind hellauf begeistert, dass du dabei bist.'
+	'Sie erklären dir die Regeln - es handelt sich um ein Kartenspiel, bei dem jede Karte einen anderen Wert hat.'
+	'Am Ende gewinnt, wer die meisten Runden am Stück für sich entscheiden kann. Wie viel Gold willst du setzen?'
+);
+
+INSERT INTO public.navigation_options (label, target_page, text, conditions)
+VALUES (
+        'go_to_sleep_afterall_nav',
+        'first_night_sleep',
+        'Doch lieber ins Bett...',
+        NULL
+    ),(
+        'casino_nav_1_gold',
+        'casino_1_gold',
+        'Setze 1 Gold',
+        'gold >= 1'
+    ),(
+        'casino_nav_5_gold',
+        'casino_5_gold',
+        'Setze 5 Gold',
+        'gold >= 5'
+    ),(
+        'casino_nav_15_gold',
+        'casino_15_gold',
+        'Setze 15 Gold',
+        'gold >= 15'
+    );
+
+INSERT INTO public.navigation_option_source (option_label, source_page) VALUES
+('go_to_sleep_afterall_nav', 'challenge_dwarfs'),
+('casino_nav_1_gold', 'challenge_dwarfs'),
+('casino_nav_5_gold', 'challenge_dwarfs'),
+('casino_nav_15_gold', 'challenge_dwarfs');
+
+
 
 ----------
 
